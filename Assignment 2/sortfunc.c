@@ -1,4 +1,5 @@
 /* Code by Tanmay Chaturvedi
+ * This code runs on the BBG user-space and makes a system call to sort an unsorted array
  * 
  * References for Time/Date:https://www.includehelp.com/c-programs/system-date-time-linux.aspx
  * */

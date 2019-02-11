@@ -1,3 +1,13 @@
+/*
+ * Fileio.c file
+ *
+ *  Created on: Feb 8, 2019
+ *      Author: Tanmay Chaturvedi
+
+ 		Description:
+*		This is part of Assignment 2, Question 2
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
