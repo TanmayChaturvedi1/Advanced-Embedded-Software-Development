@@ -1,0 +1,1 @@
+*/10 * * * * /usr/bin/./sortfunc >> /usr/bin/cron_ output.txt 2>&1
