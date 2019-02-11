@@ -1,1 +1,3 @@
+# Crontab file to schedule executable file execution every 10 minutes and store output in a text file
+# By Tanmay Chaturvedi
 */10 * * * * /usr/bin/./sortfunc >> /usr/bin/cron_ output.txt 2>&1
