@@ -172,9 +172,6 @@ static void filtered_linked_list(void)
 			}
 		}
 
-		
-		*/
-		
 
 
 
