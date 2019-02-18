@@ -63,16 +63,23 @@ static int animal_ecosystem_init(void)
  
 
 	animal_nodes_ptr = (struct animal_struct*) (kmalloc(sizeof(animal_list_head),GFP_KERNEL));
-	animal_nodes_ptr->animal_count = 0;
+	//animal_nodes_ptr->animal_count;
 	
 		for(i=1; i<INPUT_ARRAY_SIZE; i++)
 		{
+			if(i==1)
+			{
+				animal_nodes_ptr->animal_type = animal_list[i-1] ;
+					animal_nodes_ptr->animal_count  = 1;
+			}
+			
 						
 			if(!(strcmp(animal_list[i-1], animal_list[i])))	/*If 2 strings are equal*/
 			{
 				printk("string equal\n");	
 				animal_nodes_ptr->animal_count ++;
 				compare_flag = 0;
+				
 			}
 			else
 			{
