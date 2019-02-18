@@ -26,14 +26,15 @@ MODULE_DESCRIPTION("A Kernel Module that works on Linked List");
 MODULE_VERSION("1.0");
 
 static int count_greater_than = 0;	
-static char* animal_type = "default";
-/*static unsigned long timer_delay = 0; /*User input timer interrupt delay
-struct timer_list tanmay_timer;*/
+static char* input_animal_type = "default";
+static int nodes_counter = 0;
+static int filtered_nodes_counter = 0;
 
 module_param(count_greater_than, int, 0);
 module_param(input_animal_type, charp, 0);
 
 static void initial_sort(void);
+static void filtered_linked_list(void);
 
 /*Array of animals*/
 static char* animal_list[] = {"Cat", "Cat", "Dog", "Dog", "Alligator", "Mouse", "Tiger", "Zebra", "Donkey", "Rabbit", \
@@ -72,13 +73,15 @@ struct animal_struct_filtered animal_list_head_1, *animal_nodes_ptr_1;
 static int animal_ecosystem_init(void)
 {
 	initial_sort();
+	filtered_linked_list();
+	
 	return 0;
 
 }
 static void initial_sort(void)	
 {
 	int i;
-	int nodes_counter = 0;
+	
 	int compare_flag = 0;
 	INIT_LIST_HEAD(&animal_list_head.list); /*List head*/
 	printk(KERN_INFO "initialize kernel module \n");
@@ -132,60 +135,66 @@ static void initial_sort(void)
 		
 		/*Section 1 done before*/
 }
-		
+
+
 static void filtered_linked_list(void)
 {
-	INIT_LIST_HEAD(&animal_list_head_1.list); /*List head for new linked List*/
-	
-	if(!strcmp(input_animal_type, "default")) /*strings equal*/
-	{
-		printk("Animal Name: = %s and Respective Count = %d\n", animal_nodes_ptr->animal_type, animal_nodes_ptr->animal_count);
-	}
-	
-	else if (animal_nodes_ptr->animal_count > count_greater_than)
-	{
-			animal_nodes_ptr_1 = (struct animal_struct_filtered *) (kmalloc(sizeof(animal_list_head_1)));
-			animal_nodes_ptr_1->animal_type = animal;
-	}
-	
+	INIT_LIST_HEAD(&animal_list_head_1.list_filtered); /*List head for new linked List*/
 	list_for_each_entry(animal_nodes_ptr, &animal_list_head.list, list)/*Iterating on the previously sorted linkedlist*/
 	{
-		/*default case*/
-	if ((!strcmp(input_animal_type, "default")) && count_greater_than == 0 )
+	
+	/*default case*/
+	if((strcmp(input_animal_type, "default") == 0) && (count_greater_than  == 0)) /*strings equal*/
 	{
-			
+		printk("Previous Animal Name: = %s and Respective Count = %d\n", animal_nodes_ptr->animal_type, animal_nodes_ptr->animal_count);
+	}
+	
+	else if ((animal_nodes_ptr->animal_count > count_greater_than) && (strcmp(animal_nodes_ptr->animal_type, input_animal_type) ==0)) /*When both parameters inputed*/
+	{
+			animal_nodes_ptr_1 = (struct animal_struct_filtered*) (kmalloc(sizeof(animal_list_head_1), GFP_KERNEL));	
+			animal_nodes_ptr_1->animal_type_filtered = animal_nodes_ptr->animal_type;
+			animal_nodes_ptr_1->animal_count_filtered = animal_nodes_ptr->animal_count;
+			list_add_tail(&(animal_nodes_ptr_1->list_filtered), &(animal_list_head_1.list_filtered));
+			filtered_nodes_counter++;
+			printk("Filtered Node # is %d, Name: = %s and Respective Count = %d\n", filtered_nodes_counter, animal_nodes_ptr_1->animal_type_filtered, animal_nodes_ptr_1->animal_count_filtered);	
+	}
+	
+	else if (((animal_nodes_ptr->animal_count > count_greater_than)) && ((count_greater_than > 0)) || ((strcmp(animal_nodes_ptr->animal_type, input_animal_type) ==0)) ) /*Either Animal name or count inputted*/
+	{
+			animal_nodes_ptr_1 = (struct animal_struct_filtered*) (kmalloc(sizeof(animal_list_head_1), GFP_KERNEL));	
+			animal_nodes_ptr_1->animal_type_filtered = animal_nodes_ptr->animal_type;
+			animal_nodes_ptr_1->animal_count_filtered = animal_nodes_ptr->animal_count;
+			list_add_tail(&(animal_nodes_ptr_1->list_filtered), &(animal_list_head_1.list_filtered));
+			filtered_nodes_counter++;
+			printk("Node # is %d, Name: = %s and Respective Count = %d\n", filtered_nodes_counter, animal_nodes_ptr_1->animal_type_filtered, animal_nodes_ptr_1->animal_count_filtered);
 	}
 		
-		if ( input_animalnum == "none" )
-		{
-			if ( input_animaltype  == "none")
-			{
-				list_for_each_entry(animal_nodes_ptr, &animal_list_head.list, list)
-				{
-					printk("Animal Name: = %s\n", animal_nodes_ptr->animal_type);
-					printk("Respective Count = %d\n\n", animal_nodes_ptr->animal_count);
-				}
-			}
-			else 
-			{
-				
-			}
-		}
 
+	}
+}
 
 
 
 static void animal_ecosystem_end(void)
 {
-	printk(KERN_INFO "Exited the kernel module\n");
 	size_t size = 0;
+	size_t size_filtered = 0;
+	printk(KERN_INFO "Exited the kernel module\n");
+	
 	list_for_each_entry(animal_nodes_ptr, &animal_list_head.list, list)
 	{
 	size = size + sizeof(*animal_nodes_ptr);
 	kfree(animal_nodes_ptr);
 	}
+	
+	list_for_each_entry(animal_nodes_ptr_1, &animal_list_head_1.list_filtered, list_filtered)
+	{
+	size_filtered = size_filtered + sizeof(*animal_nodes_ptr_1);
+	kfree(animal_nodes_ptr_1);
+	}
 
-	printk("Total size freed = %d bytes", size);
+	printk("Total size freed = %d bytes\n", size);
+	printk("Total size freed = %d bytes\n", size);
 }
 
 
