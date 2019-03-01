@@ -26,11 +26,12 @@ int main()
 		int 	len;	
 	}IPCmessage_t;
 
-	char *Payload_String[10] = {"Payload:A","Payload:B","Payload:C","Payload:D","Payload:E","Payload:F","Payload:G","Payload:H","Payload:I","Payload:J"};
-	char *Receive_String[10] = {0};
+	char *Payload_String[10] = {"Payload:A","Payload:B","Payload:C","Payload:D","Payload:E","Payload:F","Payload:G","Payload:H","Payload:I","Payload:T"};
+	char Receive_String[10][10]={0};
     IPCmessage_t str_obj, str_obj_1 ;
 
-    str_obj.len = 9;
+    str_obj.len = 10;
+    str_obj_1.len = 10;
 
 	ret1 = pipe( pipe1fds );	/*Creates a unidirectional pipe*/
 
@@ -53,43 +54,49 @@ int main()
 	if( pid > 0 )	/*Parent Process*/
 	{
 
-		//close( pipe1fds[0] );	/*Read Closed for Pipe 1*/
-		//close( pipe2fds[1] );	/*Write Closed for Pipe 2*/ 
+		close( pipe1fds[0] );	/*Read Closed for Pipe 1*/
+		close( pipe2fds[1] );	/*Write Closed for Pipe 2*/ 
 		for( int i=0; i<10; i++)
 		{
 			str_obj.string = Payload_String[i];
-	int		a = 	write( pipe1fds[1], str_obj.string, str_obj.len );
+		int	a = 	write( pipe1fds[1], str_obj.string, str_obj.len );
 	//printf("%d\n", a);
 	sleep(1);
 		}
 
 		for( int i=0; i<10; i++)
 		{
-		read( pipe2fds[0], str_obj_1.string, str_obj.len ); 
+		int d = read( pipe2fds[0], &Receive_String/*str_obj.string*/, str_obj.len ); 
+		printf("parent read %d\n", d);
 		
-		printf("In Parent: Message is %s\n", str_obj_1.string );
+		printf("In Parent: Message is %s\n", Receive_String[0] /*str_obj.string*/ );
 		}
 
 	}
 
 	else
 	{
-		//close( pipe1fds[1] );	/*Write Closed for Pipe 1*/
-		//close( pipe2fds[0] );	/*Read Closed for Pipe 2*/ 
+		close( pipe1fds[1] );	/*Write Closed for Pipe 1*/
+		close( pipe2fds[0] );	/*Read Closed for Pipe 2*/ 
 
 	//sleep(2);
 	for( int  i=0; i<10; i++)
 	{
-		
-		int b = read( pipe1fds[0], &str_obj.string, str_obj.len );
+
+		int b = read( pipe1fds[0], &str_obj_1.string, str_obj_1.len );
 		printf("child read %d\n", b);
-		printf("In Child: Message is %s\n", &str_obj.string );
+		printf("In Child: Message is %s\n", &str_obj_1.string );
+		strcpy(Receive_String[0],str_obj_1.string); 
+	//}
 	}
 	for( int i=0; i<10; i++)
 	{
-		str_obj_1.string = Payload_String[i];
-		int c = write( pipe2fds[1], &str_obj_1.string, str_obj.len );
-		printf("%d\n", c);
+//		str_obj_1.string = Payload_String[i];
+//		Receive_String[i] = str_obj_1.string; 
+		sleep(0.5);
+		int c = write( pipe2fds[1], &Receive_String[0], str_obj.len );
+		printf("chld write %d\n", c);
+		
 	}	 
 		
 
