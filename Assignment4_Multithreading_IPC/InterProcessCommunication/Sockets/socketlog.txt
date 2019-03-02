@@ -1,0 +1,100 @@
+Time - 1551561282458256
+Server: Receiving data
+Received data = Payload:A
+Length of data = 9
+
+Time - 1551561283459413
+Server: Receiving data
+Received data = Payload:B
+Length of data = 9
+
+Time - 1551561284462038
+Server: Receiving data
+Received data = Payload:C
+Length of data = 9
+
+Time - 1551561285464107
+Server: Receiving data
+Received data = Payload:D
+Length of data = 9
+
+Time - 1551561286465282
+Server: Receiving data
+Received data = LEDStat:O
+Length of data = 9
+
+Time - 1551561287467427
+Server: Receiving data
+Received data = LEDStat:1
+Length of data = 9
+
+Time - 1551561288474433
+Server: Receiving data
+Received data = Payload:G
+Length of data = 9
+
+Time - 1551561289475280
+Server: Receiving data
+Received data = Payload:H
+Length of data = 9
+
+Time - 1551561290475640
+Server: Receiving data
+Received data = Payload:I
+Length of data = 9
+
+Time - 1551561291477984
+Server: Receiving data
+Received data = Payload:T
+Length of data = 9
+
+Time - 1551561292481791
+Server: Receiving data
+Received data = Payload:A
+Length of data = 9
+
+Time - 1551561292482103
+Server: Receiving data
+Received data = Payload:B
+Length of data = 9
+
+Time - 1551561293483324
+Server: Receiving data
+Received data = Payload:C
+Length of data = 9
+
+Time - 1551561294484041
+Server: Receiving data
+Received data = Payload:D
+Length of data = 9
+
+Time - 1551561295485023
+Server: Receiving data
+Received data = LEDStat:1
+Length of data = 9
+
+Time - 1551561296491031
+Server: Receiving data
+Received data = LEDStat:O
+Length of data = 9
+
+Time - 1551561297492566
+Server: Receiving data
+Received data = Payload:G
+Length of data = 9
+
+Time - 1551561298495436
+Server: Receiving data
+Received data = Payload:H
+Length of data = 9
+
+Time - 1551561299495773
+Server: Receiving data
+Received data = Payload:I
+Length of data = 9
+
+Time - 1551561300497108
+Server: Receiving data
+Received data = Payload:T
+Length of data = 9
+
