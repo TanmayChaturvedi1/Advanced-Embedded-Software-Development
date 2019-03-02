@@ -4,7 +4,7 @@
  * Course: Advanced Embedded Software Development
  * 
  * This program demonsrates IPC using Posix Message Queues.
- * This is the Server Side.
+ * This is the Client Side.
  * Refernce[1]: https://www.softprayog.in/programming/interprocess-communication-using-posix-message-queues-in-linux
  */
 
@@ -17,10 +17,11 @@
 #include <sys/stat.h>
 #include <mqueue.h>
 #include <time.h>
+#include <sys/time.h>
 #include <unistd.h>
 
-#define CLIENT_QUEUE_NAME   "/client_process5"
-#define SERVER_QUEUE_NAME   "/server_process5"
+#define CLIENT_QUEUE_NAME   "/client_process11"
+#define SERVER_QUEUE_NAME   "/server_process11"
 #define	LOG_FILE_NAME		"posixqueuelog.txt"
 #define QUEUE_PERMISSIONS	(0664)
 #define MAX_MESSAGES		(10)	/*Max message in queue*/
@@ -29,13 +30,13 @@
 
 typedef struct 
 {
-	char string[32];
+	char string[20];
 	int len;
 	int led;
 }IPCmessage_t;
 
 void set_signal_handler(void);
-
+long getMicrotime(void);
 
 FILE *fptr;
 mqd_t qd_server, qd_client;	/*Queue Descriptor for Client/Server*/
@@ -44,13 +45,13 @@ int main()
 {
 	set_signal_handler();
 	struct mq_attr posixq_attr;
-	IPCmessage_t in_buf[MAX_MSG_SIZE], out_buf[MAX_MSG_SIZE];
+	IPCmessage_t in_buf, out_buf; 
 	char *Payload_String[10] = {"Payload:A","Payload:B","Payload:C","Payload:D","Payload:E","Payload:F","Payload:G","Payload:H","Payload:I","Payload:T"};
 
    
     posixq_attr.mq_flags = 0;
     posixq_attr.mq_maxmsg = MAX_MESSAGES;
-    posixq_attr.mq_msgsize = MAX_MSG_SIZE;
+    posixq_attr.mq_msgsize = sizeof(in_buf);
     posixq_attr.mq_curmsgs = 0;
 
 
@@ -66,32 +67,41 @@ int main()
     for (int  i = 0; i< MAX_MESSAGES; i++)
     {
 
-    	strcpy(out_buf->string, Payload_String[i]);
+        strcpy(out_buf.string , Payload_String[i]);
+        out_buf.len = strlen(Payload_String[i]);
+        out_buf.led = i%2;
+
+    	/*strcpy(out_buf->string, Payload_String[i]);
     	out_buf->len = strlen(out_buf->string);
     	out_buf->led = i%2;
-
-    	int resp = mq_send( qd_server, (const char *)&out_buf, sizeof(out_buf[i]), 0 );
+*/
+    	int resp = mq_send( qd_server, (const char *)&out_buf, sizeof(out_buf), 0 );
     	if ( resp == -1 )
     	{
     		perror("Client: mq_send() Not able to send data to server\n");
     	}
+    }
 
+    for (int i=0; i< MAX_MESSAGES; i++)
+    {
 
-    	int received = mq_receive( qd_client, (char*)&in_buf, sizeof(in_buf), NULL);
+       /// memset(in_buf, 0 , sizeof(in_buf));
+    	int received = mq_receive( qd_client, (char*)&in_buf, sizeof(in_buf), 0);
     	if ( received == -1 )
     	{
     		perror("Client: mq_receive()");
     	}
     	sleep(1);
     	fptr = fopen(LOG_FILE_NAME,"a");
-    	fprintf(fptr, "In Client: Data=, %s\n",in_buf->string);
+        fprintf(fptr,"Time - %ld\n", getMicrotime());
+    	fprintf(fptr, "In Client: Data= %s\n",in_buf.string);
+        fprintf(fptr, "In Client: Data Length= %d\n",in_buf.len);
+        fprintf(fptr, "In Client: LED Status= %d\n",in_buf.led);
+
     	fclose(fptr);
     //	printf("In Client: Len=, %d\n",(IPCmessage_t*)(in_buf->len));
     //	printf("In Client: LED=, %d\n",(IPCmessage_t*)(in_buf->led));
 //int received = mq_receive( qd_server, (char*)&in_buf, sizeof(in_buf), NULL );
-
-
-
 
     }
 
@@ -116,10 +126,12 @@ int main()
 
 void signal_handler(int signo, siginfo_t *info, void *extra) 
 {
-	//int rc;
-	
-	//clock_gettime(CLOCK_REALTIME, &diff);
-	//fprintf(fp, "",diff.tv_sec, (diff.tv_nsec / 1000000), (diff.tv_nsec / 1000), diff.tv_nsec); 
+    fptr = fopen(LOG_FILE_NAME, "a");
+    fprintf(fptr, "Time - %ld\n", getMicrotime());
+    fprintf(fptr, "SIG Detected, Exiting!\n");
+    fclose(fptr);
+    ///close(socket_fd);
+    //exit(0);
 	
     mq_close( qd_client );
     mq_close( qd_server );
@@ -127,7 +139,7 @@ void signal_handler(int signo, siginfo_t *info, void *extra)
 	int resp = fclose(fptr);
 	if(resp != 0)
 		perror("fclose() in SIGEVENT");
-		
+
 	exit(0);
 }
 
@@ -142,4 +154,11 @@ void set_signal_handler(void)
             perror("sigusr1: sigaction");
             _exit(1);
         }
+}
+
+
+long getMicrotime(){
+    struct timeval currentTime;
+    gettimeofday(&currentTime, NULL);
+    return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 }

@@ -17,10 +17,11 @@
 #include <sys/stat.h>
 #include <mqueue.h>
 #include <time.h>
+#include <sys/time.h>
 #include <unistd.h>
 
-#define CLIENT_QUEUE_NAME   "/client_process5"
-#define SERVER_QUEUE_NAME   "/server_process5"
+#define CLIENT_QUEUE_NAME   "/client_process11"
+#define SERVER_QUEUE_NAME   "/server_process11"
 #define	LOG_FILE_NAME		"posixqueuelog.txt"
 #define QUEUE_PERMISSIONS	(0664)
 #define MAX_MESSAGES		(10)	/*Max message in queue*/
@@ -35,21 +36,23 @@ typedef struct
 }IPCmessage_t;
 
 void set_signal_handler(void);
+long getMicrotime();
 
 FILE *fptr;
 mqd_t qd_server, qd_client;	/*Queue Descriptor for Client/Server*/
 
-int main()
+    int main()
 {
 	set_signal_handler();
 	struct mq_attr posixq_attr;
-	IPCmessage_t in_buf[MAX_MSG_SIZE], out_buf[MAX_MSG_SIZE];
+    IPCmessage_t in_buf, out_buf; 
+	//IPCmessage_t in_buf[MAX_MSG_SIZE], out_buf[MAX_MSG_SIZE];
 	char *Payload_String[10] = {"Payload:A","Payload:B","Payload:C","Payload:D","Payload:E","Payload:F","Payload:G","Payload:H","Payload:I","Payload:T"};
 
-   
+   printf("Size %ld", sizeof(in_buf));
     posixq_attr.mq_flags = 0;
     posixq_attr.mq_maxmsg = MAX_MESSAGES;
-    posixq_attr.mq_msgsize = MAX_MSG_SIZE;
+    posixq_attr.mq_msgsize = sizeof(in_buf);
     posixq_attr.mq_curmsgs = 0;
 
 
@@ -76,10 +79,14 @@ int main()
     	/*char * myptr;
     	IPCmessage_t new;
     	myptr = (char *)&new;*/
-    	int received = mq_receive( qd_server, (char*)&in_buf, sizeof(in_buf), NULL );
+      //  memset(in_buf, 0 , sizeof(in_buf));
+    	int received = mq_receive( qd_server, (char*)&in_buf, sizeof(in_buf), 0 );
     	fptr = fopen(LOG_FILE_NAME, "a");
-    	fprintf(fptr,"In Server: Data=, %s\n",in_buf->string);
-    	fclose(fptr);
+        fprintf(fptr,"Time - %ld\n", getMicrotime());
+    	fprintf(fptr,"In Server: Data= %s\n",in_buf.string);
+        fprintf(fptr,"In Server: Data Length= %d\n",in_buf.len);
+        fprintf(fptr,"In Server: Led Status= %d\n",in_buf.led);
+        fclose(fptr);
     //	printf("In Server: Len=, %d\n",new.len);
     	//printf("In Server: LED=, %d\n",(new.led));
     	sleep(1);
@@ -89,11 +96,16 @@ int main()
     		exit (EXIT_FAILURE);
     	}
 
-    	strcpy(out_buf->string, Payload_String[i]);
-    	out_buf->len = strlen(out_buf->string);
-    	out_buf->led = i%2;
+    }
 
-    	int resp = mq_send( qd_client, (const char *)&out_buf, sizeof(out_buf[i]), 0);
+    for (int  i = 0; i< MAX_MESSAGES; i++)
+    {
+    //	strcpy(out_buf.string, Payload_String[i]);
+        strcpy(out_buf.string , Payload_String[i]);
+    	out_buf.len = strlen(out_buf.string);
+    	out_buf.led = i%2;
+
+    	int resp = mq_send( qd_client, (const char *)&out_buf,sizeof(out_buf), 0);
     	if ( resp == -1 )
     	{
     		perror("Server: mq_send() Not ablet to send data to client");
@@ -118,19 +130,19 @@ int main()
 
 void signal_handler(int signo, siginfo_t *info, void *extra) 
 {
-	int rc;
-	
-	//clock_gettime(CLOCK_REALTIME, &diff);
-	//fprintf(fp, "",diff.tv_sec, (diff.tv_nsec / 1000000), (diff.tv_nsec / 1000), diff.tv_nsec); 
-	
+    fptr = fopen(LOG_FILE_NAME, "a");
+    fprintf(fptr, "Time - %ld", getMicrotime());
+    fprintf(fptr, "SIG Detected, Exiting!\n");
+    fclose(fptr);
+    
     mq_close( qd_client );
     mq_close( qd_server );
 
-	int resp = fclose(fptr);
-	if(resp != 0)
-		perror("fclose() in SIGEVENT");
+    int resp = fclose(fptr);
+    if(resp != 0)
+        perror("fclose() in SIGEVENT");
 
-	exit(0);
+    exit(0);
 }
 
 void set_signal_handler(void)
@@ -144,4 +156,10 @@ void set_signal_handler(void)
             perror("sigusr1: sigaction");
             _exit(1);
         }
+}
+
+long getMicrotime(){
+    struct timeval currentTime;
+    gettimeofday(&currentTime, NULL);
+    return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 }

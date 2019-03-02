@@ -1,20 +1,80 @@
-In Server: Data=, Payload:A
-In Client: Data=, Payload:A
-In Server: Data=, Payload:B
-In Client: Data=, Payload:B
-In Server: Data=, Payload:C
-In Client: Data=, Payload:C
-In Server: Data=, Payload:D
-In Client: Data=, Payload:D
-In Server: Data=, Payload:E
-In Client: Data=, Payload:E
-In Server: Data=, Payload:F
-In Client: Data=, Payload:F
-In Server: Data=, Payload:G
-In Client: Data=, Payload:G
-In Server: Data=, Payload:H
-In Client: Data=, Payload:H
-In Server: Data=, Payload:I
-In Client: Data=, Payload:I
-In Server: Data=, Payload:T
-In Client: Data=, Payload:T
+Time - 1551547474979231
+In Server: Data= Payload:A
+In Server: Data Length= 9
+In Server: Led Status= 0
+Time - 1551547475980825
+In Server: Data= Payload:B
+In Server: Data Length= 9
+In Server: Led Status= 1
+Time - 1551547476982180
+In Server: Data= Payload:C
+In Server: Data Length= 9
+In Server: Led Status= 0
+Time - 1551547477983655
+In Server: Data= Payload:D
+In Server: Data Length= 9
+In Server: Led Status= 1
+Time - 1551547478995500
+In Server: Data= Payload:E
+In Server: Data Length= 9
+In Server: Led Status= 0
+Time - 1551547479996585
+In Server: Data= Payload:F
+In Server: Data Length= 9
+In Server: Led Status= 1
+Time - 1551547480998441
+In Server: Data= Payload:G
+In Server: Data Length= 9
+In Server: Led Status= 0
+Time - 1551547481999435
+In Server: Data= Payload:H
+In Server: Data Length= 9
+In Server: Led Status= 1
+Time - 1551547483000335
+In Server: Data= Payload:I
+In Server: Data Length= 9
+In Server: Led Status= 0
+Time - 1551547484001353
+In Server: Data= Payload:T
+In Server: Data Length= 9
+In Server: Led Status= 1
+Time - 1551547486002508
+In Client: Data= Payload:A
+In Client: Data Length= 9
+In Client: LED Status= 0
+Time - 1551547487003668
+In Client: Data= Payload:B
+In Client: Data Length= 9
+In Client: LED Status= 1
+Time - 1551547488005598
+In Client: Data= Payload:C
+In Client: Data Length= 9
+In Client: LED Status= 0
+Time - 1551547489006923
+In Client: Data= Payload:D
+In Client: Data Length= 9
+In Client: LED Status= 1
+Time - 1551547490007615
+In Client: Data= Payload:E
+In Client: Data Length= 9
+In Client: LED Status= 0
+Time - 1551547491008730
+In Client: Data= Payload:F
+In Client: Data Length= 9
+In Client: LED Status= 1
+Time - 1551547492009420
+In Client: Data= Payload:G
+In Client: Data Length= 9
+In Client: LED Status= 0
+Time - 1551547493010177
+In Client: Data= Payload:H
+In Client: Data Length= 9
+In Client: LED Status= 1
+Time - 1551547494012192
+In Client: Data= Payload:I
+In Client: Data Length= 9
+In Client: LED Status= 0
+Time - 1551547495016145
+In Client: Data= Payload:T
+In Client: Data Length= 9
+In Client: LED Status= 1
