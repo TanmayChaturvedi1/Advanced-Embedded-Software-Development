@@ -1,0 +1,230 @@
+
+
+ in Producer (Old data) 
+
+Time - 1551575450390324
+Stored data = Payload:A
+Stored data len = 9
+Stored LED status = 0
+
+
+ in Consumer (Old data) 
+
+Retrieved data = 0
+
+Retrieved data len = 2
+Retrieved LED status = 0
+
+
+ in Producer (New data) 
+
+Retrieved data = Payload:A
+Retrieved data len = 9
+Retrieved LED status = 0
+
+
+ in Producer (Old data) 
+
+Time - 1551575453298005
+Stored data = Payload:B
+Stored data len = 9
+Stored LED status = 1
+
+
+ in Consumer (Old data) 
+
+Retrieved data = 1
+
+Retrieved data len = 2
+Retrieved LED status = 0
+
+
+ in Producer (New data) 
+
+Retrieved data = Payload:B
+Retrieved data len = 9
+Retrieved LED status = 1
+
+
+ in Producer (Old data) 
+
+Time - 1551575453298246
+Stored data = Payload:C
+Stored data len = 9
+Stored LED status = 0
+
+
+ in Consumer (Old data) 
+
+Retrieved data = 0
+
+Retrieved data len = 2
+Retrieved LED status = 1
+
+
+ in Producer (New data) 
+
+Retrieved data = Payload:C
+Retrieved data len = 9
+Retrieved LED status = 0
+
+
+ in Producer (Old data) 
+
+Time - 1551575453298532
+Stored data = Payload:D
+Stored data len = 9
+Stored LED status = 1
+
+
+ in Consumer (Old data) 
+
+Retrieved data = 1
+
+Retrieved data len = 2
+Retrieved LED status = 0
+
+
+ in Producer (New data) 
+
+Retrieved data = Payload:D
+Retrieved data len = 9
+Retrieved LED status = 1
+
+
+ in Producer (Old data) 
+
+Time - 1551575453298792
+Stored data = LEDStat:1
+Stored data len = 9
+Stored LED status = 0
+
+
+ in Consumer (Old data) 
+
+Retrieved data = 0
+
+Retrieved data len = 2
+Retrieved LED status = 1
+
+
+ in Producer (New data) 
+
+Retrieved data = LEDStat:0
+Retrieved data len = 9
+Retrieved LED status = 0
+
+
+ in Producer (Old data) 
+
+Time - 1551575453299064
+Stored data = LEDStat:O
+Stored data len = 9
+Stored LED status = 1
+
+
+ in Consumer (Old data) 
+
+Retrieved data = 1
+
+Retrieved data len = 2
+Retrieved LED status = 0
+
+
+ in Producer (New data) 
+
+Retrieved data = LEDStat:1
+Retrieved data len = 9
+Retrieved LED status = 1
+
+
+ in Producer (Old data) 
+
+Time - 1551575453299347
+Stored data = Payload:G
+Stored data len = 9
+Stored LED status = 0
+
+
+ in Consumer (Old data) 
+
+Retrieved data = 0
+
+Retrieved data len = 2
+Retrieved LED status = 1
+
+
+ in Producer (New data) 
+
+Retrieved data = Payload:G
+Retrieved data len = 9
+Retrieved LED status = 0
+
+
+ in Producer (Old data) 
+
+Time - 1551575453299647
+Stored data = Payload:H
+Stored data len = 9
+Stored LED status = 1
+
+
+ in Consumer (Old data) 
+
+Retrieved data = 1
+
+Retrieved data len = 2
+Retrieved LED status = 0
+
+
+ in Producer (New data) 
+
+Retrieved data = Payload:H
+Retrieved data len = 9
+Retrieved LED status = 1
+
+
+ in Producer (Old data) 
+
+Time - 1551575453299891
+Stored data = Payload:I
+Stored data len = 9
+Stored LED status = 0
+
+
+ in Consumer (Old data) 
+
+Retrieved data = 0
+
+Retrieved data len = 2
+Retrieved LED status = 1
+
+
+ in Producer (New data) 
+
+Retrieved data = Payload:I
+Retrieved data len = 9
+Retrieved LED status = 0
+
+
+ in Producer (Old data) 
+
+Time - 1551575453300123
+Stored data = Payload:T
+Stored data len = 9
+Stored LED status = 1
+
+
+ in Consumer (Old data) 
+
+Retrieved data = 1
+
+Retrieved data len = 2
+Retrieved LED status = 0
+
+
+ in Producer (New data) 
+
+Retrieved data = Payload:T
+Retrieved data len = 9
+Retrieved LED status = 1
