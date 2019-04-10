@@ -1,0 +1,2 @@
+- For Changing Temperature Threshold (Extra Credits), change TEMP_TH in main.h
+- Current TEMP_TH is 29.0 deg celsius
